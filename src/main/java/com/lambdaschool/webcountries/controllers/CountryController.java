@@ -70,8 +70,25 @@ public class CountryController {
         System.out.println("The total population is " + total);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-    //http://localhost:2022/population/min
-
-    //http://localhost:2022/population/max
+    //http://localhost:2022/population/min ✔
+    @GetMapping(value="/population/min", produces = {"application/json"})
+    public ResponseEntity<?> displayPopulationMin()
+    {
+        List<Country> myList = new ArrayList<>();
+        countryrepos.findAll().iterator().forEachRemaining(myList::add);
+        myList.sort((c1, c2) -> (int)(c1.getPopulation() - c2.getPopulation()));
+        Country popMin = myList.get(0);
+        return new ResponseEntity<>(popMin, HttpStatus.OK);
+    }
+    //http://localhost:2022/population/max ✔
+    @GetMapping(value="/population/max", produces = {"application/json"})
+    public ResponseEntity<?> displayPopulationMax()
+    {
+        List<Country> myList = new ArrayList<>();
+        countryrepos.findAll().iterator().forEachRemaining(myList::add);
+        myList.sort((c1, c2) -> (int)(c2.getPopulation() - c1.getPopulation()));
+        Country popMax = myList.get(0);
+        return new ResponseEntity<>(popMax, HttpStatus.OK);
+    }
 
 }
