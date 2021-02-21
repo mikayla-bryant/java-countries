@@ -56,8 +56,20 @@ public class CountryController {
         return new ResponseEntity<>(rtnList, HttpStatus.OK);
     }
 
-    //http://localhost:2022/population/total
-
+    //http://localhost:2022/population/total ✔
+    @GetMapping(value="/population/total", produces = {"application/json"})
+    public ResponseEntity<?> displayPopulationTotal()
+    {
+        List<Country> myList = new ArrayList<>();
+        countryrepos.findAll().iterator().forEachRemaining(myList::add);
+        long total = 0;
+        for(Country c : myList)
+        {
+            total = total + c.getPopulation();
+        }
+        System.out.println("The total population is " + total);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
     //http://localhost:2022/population/min
 
     //http://localhost:2022/population/max
